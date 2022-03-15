@@ -4,4 +4,4 @@ Con este sencillo script podremos organizar los archivos que tengamos en una car
 
 Este script es ideal para automatizar la carpeta de descargas para tener todos los archivos descargados ordenados en todo momento.
 
-Este script lo tenemos disponible en versión con interfaz gráfica (el archivo que viene comprimido), y también en versión sin interfaz gráfica, por si queremos añadirlo al planificador de tareas.
+Este script lo tenemos disponible en versión con interfaz gráfica (el archivo que viene comprimido), y también en versión .py por si se quiere acceder y modificar el código.
