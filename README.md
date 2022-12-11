@@ -2,13 +2,31 @@
 
 Con este sencillo script podremos organizar los archivos que tengamos en una carpeta dependiendo de la extensión que tengan.
 
-El funcionamiento es sl siguiente:
+- Autor del codigo: [Mario](https://github.com/Maalfer)
 
-PASO 1 - El script comprueba si existen las carpetas donde se enviarán los archivos, en caso de no encontrarlas, las crea.
+----
 
-PASO 2 - Se comprueban las extensiones de todos los archivos uno por uno.
+### El funcionamiento es sl siguiente:
 
-PASO 3 - Se mueven los diferentes tipos de archivos en función de si son documentos, fotos, vídeos, música u otros
-tipos de archivos.
+1. El script comprueba si existen las carpetas donde se enviarán los archivos, en caso de no encontrarlas, las crea.
 
-Este script es ideal para automatizar la carpeta de descargas para tener todos los archivos descargados ordenados en todo momento.
+2. Se comprueban las extensiones de todos los archivos uno por uno.
+
+3. Se mueven los diferentes tipos de archivos en función de si son documentos, fotos, vídeos, música u otros tipos de archivos.
+
+Este script es ideal para automatizar el ordenamiento de la carpeta de descargas y tener todo archivo descargado ordenado.
+
+----
+
+### Ejecutar con:
+
+```bash
+python Orden.py
+```
+
+o en caso de que usted use windows y no tenga python instalado:
+```batch
+start Orden.exe
+```
+
+----
