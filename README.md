@@ -17,3 +17,16 @@ Con este sencillo script podremos organizar los archivos que tengamos en una car
 Este script es ideal para automatizar el ordenamiento de la carpeta de descargas y tener todo archivo descargado ordenado.
 
 ----
+
+### Ejecutar con:
+
+```bash
+python Orden.py
+```
+
+o en caso de que usted use windows y no tenga python instalado:
+```batch
+start Orden.exe
+```
+
+----
