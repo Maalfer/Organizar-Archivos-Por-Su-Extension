@@ -1,7 +1,6 @@
 from os import mkdir, listdir
 from os.path import exists
 from shutil import move, Error
-from Colors import COLOR
 
 try:
     from colorama import init
@@ -18,6 +17,48 @@ except ModuleNotFoundError:
     
     
 init() # iniciamos colorama
+
+class COLOR:
+          
+    def __init__(self):
+       
+        self.BLACK           =  "\033[30m"
+        self.RED             =  "\033[31m"
+        self.GREEN           =  "\033[32m"
+        self.YELLOW          =  "\033[33m"
+        self.BLUE            =  "\033[34m"
+        self.MAGENTA         =  "\033[35m"
+        self.CYAN            =  "\033[36m"
+        self.WHITE           =  "\033[37m"
+        self.RESET           =  "\033[39m"
+
+        self.LIGHTBLACK_EX   =  "\033[90m"
+        self.LIGHTRED_EX     =  "\033[91m"
+        self.LIGHTGREEN_EX   =  "\033[92m"
+        self.LIGHTYELLOW_EX  =  "\033[93m"
+        self.LIGHTBLUE_EX    =  "\033[94m"
+        self.LIGHTMAGENTA_EX =  "\033[95m"
+        self.LIGHTCYAN_EX    =  "\033[96m"
+        self.LIGHTWHITE_EX   =  "\033[97m"
+
+    def UP(self, n=1):
+        return '\033[' + str(n) + 'A'
+    def DOWN(self, n=1):
+        return '\033[' + str(n) + 'B'
+    def FORWARD(self, n=1):
+        return '\033[' + str(n) + 'C'
+    def BACK(self, n=1):
+        return '\033[' + str(n) + 'D'
+    def POS(self, x=1, y=1):
+        return '\033[' + str(y) + ';' + str(x) + 'H'
+    def SET_TITLE(self, text):
+        return "\033]2;{}\007".format(text)
+    def CLEAR(self):
+        return "\033[3J\033[H\033[2J"
+    def POINTGREEN(self, text1="", text2=""):
+        return self.LIGHTGREEN_EX+"["+self.BLUE+"*"+self.LIGHTGREEN_EX+"] "+self.LIGHTWHITE_EX+text1+text2+self.LIGHTWHITE_EX
+    def POINTRED(self, text=""):
+        return self.LIGHTYELLOW_EX+"["+self.RED+"*"+self.LIGHTYELLOW_EX+"] "+self.LIGHTMAGENTA_EX+text+"\n"+self.LIGHTWHITE_EX
 
 
 
