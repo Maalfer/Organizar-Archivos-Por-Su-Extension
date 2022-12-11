@@ -27,7 +27,7 @@ def crear_carpetas_si_no_existe(carpetas):
                 mkdir(carpeta)
                 print("[*] Creando la carpeta -> {}".format(carpeta))
     """
-        # Este fragmento de codigo se va a optimizado anteriormente
+        # Este fragmento de codigo se a optimizado anteriormente
         if exists("documentos") == True: 
             pass
         else: 
@@ -61,6 +61,9 @@ if __name__ == "__main__":
         Si se a importado mediante un import Orden, este codigo no se
         ejecutara.
     """
+
+    ruta = "./" # en este campo podemos especificar la ruta en la que trabaja el script
+    # en este caso, la ruta es ./ que es el directorio actual.
 
     carpetas = ["documentos", "fotos", "videos", "otros", "musica"]
     extensionesdocumentos = [".pdf", ".doc", ".docx", ".txt", ".odt", ".xlsx", ".ppt", ".pptx"]
