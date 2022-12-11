@@ -18,9 +18,16 @@ Este script es ideal para automatizar el ordenamiento de la carpeta de descargas
 
 ----
 
+### Instalacion de librerias:
+
+```batch
+pip install -r requirements.txt
+```
+
+----
 ### Ejecutar con:
 
-```bash
+```batch
 python Orden.py
 ```
 
