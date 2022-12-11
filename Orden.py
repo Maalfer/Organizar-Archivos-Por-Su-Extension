@@ -1,6 +1,7 @@
 from os import mkdir, listdir
 from os.path import exists
 from shutil import move, Error
+from Colors import COLOR
 
 try:
     from colorama import init
@@ -37,12 +38,14 @@ def crear_carpetas_si_no_existe(carpetas, ruta="./"):
         Esto comprueba si exite la carpeta documentos y la carpeta fotos,
         en caso contrario, la crea
     """
+    _COLOR = COLOR()
+    BannerInformativo = "{}[{}*{}] {}".format(_COLOR.LIGHTGREEN_EX, _COLOR.LIGHTRED_EX, _COLOR.LIGHTGREEN_EX, _COLOR.LIGHTYELLOW_EX)
     for carpeta in carpetas:
         if exists(carpeta) != True:
             # si la carpeta no existe exists() retorna False lo cual es diferente a True
             #  y esta condicion se llevara a cabo
             mkdir(ruta+carpeta)
-            print("[*] Creando la carpeta -> {}".format(carpeta))
+            print("{} Creando la carpeta -> {}".format(BannerInformativo, carpeta))
     """
         # Este fragmento de codigo se a optimizado anteriormente
         if exists("documentos") == True: 
@@ -108,11 +111,6 @@ def asociar_carpetas_con_extensiones(nombre_carpeta, extensiones_de_archivos, ru
     """
     
     return ArchivosParaEstaCarpeta
-    
-    
-    
-    
-
 
 if __name__ == "__main__":
     """
@@ -125,6 +123,10 @@ if __name__ == "__main__":
     ruta = "./" # en este campo podemos especificar la ruta en la que trabaja el script
     # en este caso, la ruta es ./ que es el directorio actual.
 
+    _COLOR = COLOR()
+    BannerAlerta = "{}[{}!{}] {}".format(_COLOR.LIGHTGREEN_EX, _COLOR.LIGHTMAGENTA_EX, _COLOR.LIGHTGREEN_EX, _COLOR.LIGHTWHITE_EX)
+    BannerInformativo = "{}[{}*{}] {}".format(_COLOR.LIGHTGREEN_EX, _COLOR.LIGHTRED_EX, _COLOR.LIGHTGREEN_EX, _COLOR.LIGHTYELLOW_EX)
+    BannerOtros = "{}[{}${}] {}".format(_COLOR.LIGHTGREEN_EX, _COLOR.LIGHTBLUE_EX, _COLOR.LIGHTGREEN_EX, _COLOR.LIGHTWHITE_EX)
 
     carpetas = ["documentos", "fotos", "videos", "musica", "otros"]
     crear_carpetas_si_no_existe(carpetas, ruta=ruta)
@@ -146,7 +148,7 @@ if __name__ == "__main__":
         """
         
         ListaDeArchivos = asociar_carpetas_con_extensiones(carpetaNumero, extensionesdocumentos[carpetaNumero], ruta=ruta) 
-        print("[$] Archivos a guardar en la carpeta {}, en total un cantidad de {}:".format(carpetas[carpetaNumero], len(ListaDeArchivos)))
+        print("{} Archivos a guardar en la carpeta {}, en total un cantidad de {}:".format(BannerOtros, carpetas[carpetaNumero], len(ListaDeArchivos)))
         print("\n".join(ListaDeArchivos))
         """
             Aqui imprimimos los archivos que se van a guardar en la carpeta,
@@ -159,10 +161,10 @@ if __name__ == "__main__":
                 existentes que se especificaron
             """
             try:
-                print("[*] Moviendo el archivo ({}) a la carpeta ({})".format(ruta+archivo, carpetas[carpetaNumero]))
+                print("{} Moviendo el archivo ({}) a la carpeta ({})".format(BannerInformativo, ruta+archivo, carpetas[carpetaNumero]))
                 move(ruta+archivo, carpetas[carpetaNumero])
             except Error:
-                print("[!] El archivo {} \t ya existe en el directorio {}".format(ruta+archivo, carpetas[carpetaNumero]))
+                print("{} El archivo {} \t ya existe en el directorio {}".format(BannerAlerta, ruta+archivo, carpetas[carpetaNumero]))
             
         
 
