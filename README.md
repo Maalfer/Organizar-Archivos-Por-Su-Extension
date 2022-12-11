@@ -25,13 +25,29 @@ pip install -r requirements.txt
 ```
 
 ----
+
+### Lectura del archivo README.md y LICENSE
+- Para Windows:
+
+```batch
+type README.md | more
+type LICENSE | more
+```
+
+- Para Linux:
+```bash
+cat README.md | more
+cat LICENSE | more
+```
+
+----
 ### Ejecutar con:
 
 ```batch
 python Orden.py
 ```
 
-o en caso de que usted use windows y no tenga python instalado:
+- En caso de que usted use Windows y no tenga Python instalado:
 ```batch
 start Orden.exe
 ```
