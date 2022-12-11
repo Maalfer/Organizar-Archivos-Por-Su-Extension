@@ -1,14 +1,32 @@
 from os import mkdir, listdir
 from os.path import exists
+from shutil import move, Error
 
-import shutil
+try:
+    from colorama import init
+except ModuleNotFoundError:
+    """
+        Si el modulo colorama no esta instalado, se instalara acontinuacion:
+    """
+    from os import system
+    print("[!] Al parecer usted no tiene colorama instalado, ahora se lo instalaremos")
+    print("[!] Mediante un \"pip install colorama\"")
+    system("pip install colorama")
+    from colorama import init
+    
+    
+    
+init() # iniciamos colorama
+
 
 
 __version__ = 2.0
 __autor__   = "Mario"
 __github__  = "https://github.com/Maalfer?tab=repositories"
 
-def crear_carpetas_si_no_existe(carpetas):
+
+
+def crear_carpetas_si_no_existe(carpetas, ruta="./"):
     """
         Esta funcion recibe en forma de lista, las carpetas a crear
         si no existen. Ejemplo de uso:
@@ -23,7 +41,7 @@ def crear_carpetas_si_no_existe(carpetas):
         if exists(carpeta) != True:
             # si la carpeta no existe exists() retorna False lo cual es diferente a True
             #  y esta condicion se llevara a cabo
-            mkdir(carpeta)
+            mkdir(ruta+carpeta)
             print("[*] Creando la carpeta -> {}".format(carpeta))
     """
         # Este fragmento de codigo se a optimizado anteriormente
@@ -91,6 +109,9 @@ def asociar_carpetas_con_extensiones(nombre_carpeta, extensiones_de_archivos, ru
     
     return ArchivosParaEstaCarpeta
     
+    
+    
+    
 
 
 if __name__ == "__main__":
@@ -106,7 +127,8 @@ if __name__ == "__main__":
 
 
     carpetas = ["documentos", "fotos", "videos", "musica", "otros"]
-    crear_carpetas_si_no_existe(carpetas)
+    crear_carpetas_si_no_existe(carpetas, ruta=ruta)
+    # crea las carpetas necesarias
     
     extensionesdocumentos = [   
                                 (".pdf", ".doc", ".docx", ".txt", ".odt", ".xlsx", ".ppt", ".pptx"),# documentos
@@ -117,14 +139,30 @@ if __name__ == "__main__":
                             ]
     
     for carpetaNumero in range(0, len(carpetas)):
-    
+        """
+            Con este bucle, asociamos las carpetas y las extensiones mediante un indice.
+            Este bucle se repetira tantas veces como carpetas alla en la lista. y ira guardando
+            valores de tipo int en la variable carpetaNumero.
+        """
+        
         ListaDeArchivos = asociar_carpetas_con_extensiones(carpetaNumero, extensionesdocumentos[carpetaNumero], ruta=ruta) 
+        print("[$] Archivos a guardar en la carpeta {}, en total un cantidad de {}:".format(carpetas[carpetaNumero], len(ListaDeArchivos)))
+        print("\n".join(ListaDeArchivos))
+        """
+            Aqui imprimimos los archivos que se van a guardar en la carpeta,
+        """
+        
+        
         for archivo in ListaDeArchivos:
+            """
+                este bucle, mueve los archivos del directorio que se desea a las carpetas creadas o ya
+                existentes que se especificaron
+            """
             try:
-                print("[*] Moviendo el archivo ({}) a la carpeta ({})".format(archivo, carpetas[carpetaNumero]))
-                shutil.move(archivo, carpetas[carpetaNumero])
-            except shutil.Error:
-                print("[!] El archivo {} \t ya existe en el directorio {}".format(archivo, carpetas[carpetaNumero]))
+                print("[*] Moviendo el archivo ({}) a la carpeta ({})".format(ruta+archivo, carpetas[carpetaNumero]))
+                move(ruta+archivo, carpetas[carpetaNumero])
+            except Error:
+                print("[!] El archivo {} \t ya existe en el directorio {}".format(ruta+archivo, carpetas[carpetaNumero]))
             
         
 
