@@ -2,6 +2,8 @@
 
 Con este sencillo script podremos organizar los archivos que tengamos en una carpeta dependiendo de la extensión que tengan.
 
+- Autor del codigo: [Mario](https://github.com/Maalfer)
+
 ----
 
 ### El funcionamiento es sl siguiente:
