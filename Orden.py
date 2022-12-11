@@ -19,13 +19,12 @@ def crear_carpetas_si_no_existe(carpetas):
         Esto comprueba si exite la carpeta documentos y la carpeta fotos,
         en caso contrario, la crea
     """
-    while (True):
-        for carpeta in carpetas:
-            if exists(carpeta) != True:
-                # si la carpeta no existe exists() retorna False lo cual es diferente a True
-                #  y esta condicion se llevara a cabo
-                mkdir(carpeta)
-                print("[*] Creando la carpeta -> {}".format(carpeta))
+    for carpeta in carpetas:
+        if exists(carpeta) != True:
+            # si la carpeta no existe exists() retorna False lo cual es diferente a True
+            #  y esta condicion se llevara a cabo
+            mkdir(carpeta)
+            print("[*] Creando la carpeta -> {}".format(carpeta))
     """
         # Este fragmento de codigo se a optimizado anteriormente
         if exists("documentos") == True: 
@@ -54,21 +53,25 @@ def crear_carpetas_si_no_existe(carpetas):
         break
     """
 
-if __name__ == "__main__":
-    """_summary_
-        Este codigo solo sera ejecutado si no a sido importado este archivo.
-        Es decir, solo si se a ejecutado mediante python Orden.py.
-        Si se a importado mediante un import Orden, este codigo no se
-        ejecutara.
+def asociar_carpetas_con_extensiones(nombre_carpeta, extensiones_de_archivos, ruta="."):
     """
-
-    ruta = "./" # en este campo podemos especificar la ruta en la que trabaja el script
-    # en este caso, la ruta es ./ que es el directorio actual.
-
-    carpetas = ["documentos", "fotos", "videos", "otros", "musica"]
-    extensionesdocumentos = [".pdf", ".doc", ".docx", ".txt", ".odt", ".xlsx", ".ppt", ".pptx"]
+        Esta funcion recibe una tupla en el argumento extensiones_de_archivos 
+        que contiene las extensiones de los archivos que se quiere
+        guardar en la carpeta que se especificar en el argumento nombre_carpeta.
+        nombre_carpeta es un argumento de tipo string(str), este valor a de ser el nombre
+        de la carpeta a la que se le asociara lass extensiones. Opcionalmente se le puede
+        especificar la ruta a trabajar, con el argumento ruta, el cual a de ser un string.
+        Ejemplo de uso:
+        
+            MisExtensiones = (".txt", ".docx")
+            MiCarpeta      = "Documentos"
+            asociar_carpetas_con_extensiones(MisExtensiones, MiCarpeta)
+    """
+    ArchivosParaEstaCarpeta = []
     
-    documentos = [archivo for archivo in listdir() if archivo.endswith(extensionesdocumentos)]
+    for archivo in listdir(ruta):
+        if archivo.endswith(extensiones_de_archivos) == True:
+            ArchivosParaEstaCarpeta.append(archivo)
     """
         el metodo endswith() comprueba que el archivo finaliza con la extension deseada
         ejemplo:
@@ -85,39 +88,45 @@ if __name__ == "__main__":
         cada valor en archivo por iteracion(repeticion). con el if comprobamos si el archivo
         acaba en la extension deseada, y solo si es asi, se agrega dicho archivo a la lista documentos.
     """
-
-    print(documentos)
-    #crear_carpetas_si_no_existe(carpetas)
-
-    for i in documentos:
-        shutil.move(i, "documentos")
+    
+    return ArchivosParaEstaCarpeta
+    
 
 
+if __name__ == "__main__":
+    """
+        Este codigo solo sera ejecutado si no a sido importado este archivo.
+        Es decir, solo si se a ejecutado mediante python Orden.py.
+        Si se a importado mediante un import Orden, este codigo no se
+        ejecutara.
+    """
 
-    extensionesfotos = r".png", r".jpg", r".jpeg", r".gif",r".tiff", r".bmp"
-    fotos = [_ for _ in listdir() if _.endswith(extensionesfotos)]
-
-    for i in fotos:
-        shutil.move(i, "fotos")
-
-
-
-    extensionesvideos = r".mp4", r".mkv", r".avi", r".mov",r".flv", r".divx"
-    videos = [_ for _ in listdir() if _.endswith(extensionesvideos)]
-
-    for i in videos:
-        shutil.move(i, "videos")
+    ruta = "./" # en este campo podemos especificar la ruta en la que trabaja el script
+    # en este caso, la ruta es ./ que es el directorio actual.
 
 
-    extensionesmusica = r".mp3", r".aac", r".wav", r".aiff",r".wma",r".opus",r".ogg"
-    musica = [_ for _ in listdir() if _.endswith(extensionesmusica)]
+    carpetas = ["documentos", "fotos", "videos", "musica", "otros"]
+    crear_carpetas_si_no_existe(carpetas)
+    
+    extensionesdocumentos = [   
+                                (".pdf", ".doc", ".docx", ".txt", ".odt", ".xlsx", ".ppt", ".pptx"),# documentos
+                                (".png", ".jpg", ".jpeg", ".gif", ".tiff", ".bmp"),                 # fotos
+                                (".mp4", ".mkv", ".avi", ".mov", ".flv", ".divx"),                  # videos
+                                (".mp3", ".aac", ".wav", ".aiff", ".wma", ".opus", ".ogg"),         # musica
+                                (".py", ".rar", ".zip", ".html", ".tmp", ".dat", ".exe", ".deb", ".dmg", ".psd"), # otros
+                            ]
+    
+    for carpetaNumero in range(0, len(carpetas)):
+    
+        ListaDeArchivos = asociar_carpetas_con_extensiones(carpetaNumero, extensionesdocumentos[carpetaNumero], ruta=ruta) 
+        for archivo in ListaDeArchivos:
+            try:
+                print("[*] Moviendo el archivo ({}) a la carpeta ({})".format(archivo, carpetas[carpetaNumero]))
+                shutil.move(archivo, carpetas[carpetaNumero])
+            except shutil.Error:
+                print("[!] El archivo {} \t ya existe en el directorio {}".format(archivo, carpetas[carpetaNumero]))
+            
+        
 
-    for i in musica:
-        shutil.move(i, "musica")
 
-
-    extensionesotros = r".py", r".rar", r".zip", r".html",r".tmp",r".dat",r".exe",r".deb",r".dmg"r".psd"
-    otros = [_ for _ in listdir() if _.endswith(extensionesotros)]
-
-    for i in otros:
-        shutil.move(i, "otros")
+    
