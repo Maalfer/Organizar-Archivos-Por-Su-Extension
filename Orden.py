@@ -1,7 +1,7 @@
 from os import mkdir, listdir
 from os.path import exists
 from shutil import move, Error
-
+from argparse import ArgumentParser
 try:
     from colorama import init
 except ModuleNotFoundError:
@@ -62,10 +62,11 @@ class COLOR:
 
 
 
-__version__ = 2.0
-__autor__   = "Mario"
-__github__  = "https://github.com/Maalfer?tab=repositories"
-
+__version__ =  2.0
+__autor__   =  "Mario"
+__github__  =  "https://github.com/Maalfer?tab=repositories"
+__doc__     =  "Script para organizar archivos en diferentes "
+__doc__    +=  "carpetas según la extensión que tengan"
 
 
 def crear_carpetas_si_no_existe(carpetas, ruta="./"):
@@ -115,7 +116,7 @@ def crear_carpetas_si_no_existe(carpetas, ruta="./"):
         break
     """
 
-def asociar_carpetas_con_extensiones(nombre_carpeta, extensiones_de_archivos, ruta="."):
+def asociar_carpetas_con_extensiones(nombre_carpeta, extensiones_de_archivos, ruta=".", ArchivosExcepciones=[]):
     """
         Esta funcion recibe una tupla en el argumento extensiones_de_archivos 
         que contiene las extensiones de los archivos que se quiere
@@ -132,7 +133,13 @@ def asociar_carpetas_con_extensiones(nombre_carpeta, extensiones_de_archivos, ru
     ArchivosParaEstaCarpeta = []
     
     for archivo in listdir(ruta):
-        if archivo.endswith(extensiones_de_archivos) == True:
+        if archivo.endswith(extensiones_de_archivos) == True and archivo not in ArchivosExcepciones:
+            """"
+                "archivo not in ArchivosExcepciones" comprueba que nuestro archivo no esta
+                en la lista de ArchivosExcepciones, en caso de que lo este, este archivo no
+                se agrega a la lista de ArchivosParaEstaCarpeta, ya que no queremos mover los
+                archivos que se contiene en ArchivosExcepciones.
+            """
             ArchivosParaEstaCarpeta.append(archivo)
     """
         el metodo endswith() comprueba que el archivo finaliza con la extension deseada
@@ -164,10 +171,30 @@ if __name__ == "__main__":
     ruta = "./" # en este campo podemos especificar la ruta en la que trabaja el script
     # en este caso, la ruta es ./ que es el directorio actual.
 
+    # Aqui hacemos una instancia a la clase COLOR para poder usar colores en nuestros print:
     _COLOR = COLOR()
     BannerAlerta = "{}[{}!{}] {}".format(_COLOR.LIGHTGREEN_EX, _COLOR.LIGHTMAGENTA_EX, _COLOR.LIGHTGREEN_EX, _COLOR.LIGHTWHITE_EX)
     BannerInformativo = "{}[{}*{}] {}".format(_COLOR.LIGHTGREEN_EX, _COLOR.LIGHTRED_EX, _COLOR.LIGHTGREEN_EX, _COLOR.LIGHTYELLOW_EX)
     BannerOtros = "{}[{}${}] {}".format(_COLOR.LIGHTGREEN_EX, _COLOR.LIGHTBLUE_EX, _COLOR.LIGHTGREEN_EX, _COLOR.LIGHTWHITE_EX)
+    
+    """
+        En esta lista metemos los archivos especiales que no queremos mover, como es el caso
+        de nuestro script. __file__ almacena como valor el nombre de este script, por lo que
+        si cambiamos el nombre de este archivo, esta variable se encargara de poner su valor
+        correspondiente
+    """
+    ArchivosExcepciones = [__file__.split("\\")[-1], "requirements.txt"]
+    """
+        __file__ = 'C:\\Users\\Usuario\\Documents\\GitHub\\Organizar-Archivos-Por-Su-Extension\\Orden.py'
+    
+        >>> archivo = __file__.split("\\")
+        >>> print(archivo)
+        ['C:', 'Users', 'Usuario', 'Documents', 'GitHub', 'Organizar-Archivos-Por-Su-Extension', 'Orden.py']
+        >>> print(archivo[-1])
+        "Orden.py"
+        
+    """
+
 
     carpetas = ["documentos", "fotos", "videos", "musica", "otros"]
     crear_carpetas_si_no_existe(carpetas, ruta=ruta)
@@ -178,7 +205,10 @@ if __name__ == "__main__":
                                 (".png", ".jpg", ".jpeg", ".gif", ".tiff", ".bmp"),                 # fotos
                                 (".mp4", ".mkv", ".avi", ".mov", ".flv", ".divx"),                  # videos
                                 (".mp3", ".aac", ".wav", ".aiff", ".wma", ".opus", ".ogg"),         # musica
-                                (".py", ".rar", ".zip", ".html", ".tmp", ".dat", ".exe", ".deb", ".dmg", ".psd"), # otros
+                                (   
+                                    ".py", ".rar", ".zip", ".html", ".tmp", ".dat", ".exe", ".deb", 
+                                    ".dmg", ".psd", ".c", ".asm", ".java", ".rst"
+                                ), # otros
                             ]
     
     for carpetaNumero in range(0, len(carpetas)):
@@ -188,7 +218,7 @@ if __name__ == "__main__":
             valores de tipo int en la variable carpetaNumero.
         """
         
-        ListaDeArchivos = asociar_carpetas_con_extensiones(carpetaNumero, extensionesdocumentos[carpetaNumero], ruta=ruta) 
+        ListaDeArchivos = asociar_carpetas_con_extensiones(carpetaNumero, extensionesdocumentos[carpetaNumero], ruta=ruta, ArchivosExcepciones=ArchivosExcepciones) 
         print("{} Archivos a guardar en la carpeta {}, en total un cantidad de {}:".format(BannerOtros, carpetas[carpetaNumero], len(ListaDeArchivos)))
         print("\n".join(ListaDeArchivos))
         """
